@@ -81,19 +81,19 @@ def modelview(eye, target, up=(0, 1, 0), M_model=None):
     return M
 
 
-def projection(fovy, near, far, aspect=1, extent=None, type='persp'):
+def projection(fov_up, near, far, aspect=1, extent=None, type='persp'):
     """Generate the projection matrix: eye to clip coordinates.
 
         Parameters
         ----------
-        fovy: float
-            field of view in the y direction
+        fov_up: float
+            field of view in the up direction of the camera
         near: scalar
             distance of the camera to the near plane, positive
         far: scalar
             distance of the camera to the far plane, positive
         aspect: float
-            fovx / fovy
+            fov_side / fov_up
         extent: array of 4
             (left, right, bottom, top) of the near plane
         type: str
@@ -110,7 +110,7 @@ def projection(fovy, near, far, aspect=1, extent=None, type='persp'):
     if extent:
         l, r, b, t = extent
     else:
-        l, r, b, t = nvixu.fov2extent(fovy, aspect, near)
+        l, r, b, t = nvixu.fov2extent(fov_up, aspect, near)
     n, f = near, far
     M = np.zeros((4, 4))
 
@@ -170,7 +170,7 @@ def viewport(X, window):
         X: array of (>2, N)
             positions in normalized device coordinates (NDC)
         window: array of 2
-            the window size on the x and y axes
+            the window size in the side and up directions
 
         Notes
         -----
@@ -186,7 +186,7 @@ def viewport(X, window):
     return X
 
 
-def shutter(X, eye, target, fovy, near, far, aspect=1, extent=None,
+def shutter(X, eye, target, fov_up, near, far, aspect=1, extent=None,
             up=(0, 1, 0), type='persp', M_model=None, window=None):
     """Click the shutter, which combines the tranformations
        and apply to the data.
@@ -203,7 +203,7 @@ def shutter(X, eye, target, fovy, near, far, aspect=1, extent=None,
     """
     X = jnp.vstack((X, jnp.ones(X.shape[1])))  # to homo coord
     M_modelview = modelview(eye, target, up=up, M_model=M_model)
-    M_proj = projection(fovy, near, far, aspect=aspect,
+    M_proj = projection(fov_up, near, far, aspect=aspect,
                         extent=extent, type=type)
     X = M_proj @ M_modelview @ X
     X = persp_div(X)

@@ -16,19 +16,19 @@ def rotation(axis, a, rad=False):
 
 def extent2fov(extent, D):
     """Given a distance, convert extent (left, right, bottom, top) to 
-       (FoVy, aspect [width / height]).
+       (fov_up, aspect [width / height]).
     """
     l, r, b, t = extent
     w, h = r - l, t - b  # width and height
     aspect = w / h
-    fovy = np.arctan2(h/2, D) * 2
-    return fovy, aspect
+    fov_up = np.arctan2(h/2, D) * 2
+    return fov_up, aspect
 
 
-def fov2extent(fovy, aspect, D):
-    """Given a distance, convert (FoVy, aspect [width / height]) to 
+def fov2extent(fov_up, aspect, D):
+    """Given a distance, convert (fov_up, aspect [width / height]) to 
        extent (left, right, bottom, top), assuming origin being at center."""
-    hh = D * np.tan(0.5 * fovy)  # half height
+    hh = D * np.tan(0.5 * fov_up)  # half height
     hw = hh * aspect  # half width
     return np.array([-hw, hw, -hh, hh])
 
