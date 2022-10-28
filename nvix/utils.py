@@ -1,8 +1,10 @@
 import numpy as np
 
 
-def rotation(axis, a):
+def rotation(axis, a, rad=False):
     """Return the rotation matrix for an angle around a certain axis."""
+    if not rad:
+        a = a / 180 * np.pi
     c, s = np.cos(a), np.sin(a)
     if axis == 'x':
         return np.array([[1, 0, 0], [0, c, -s], [0, s, c]])
