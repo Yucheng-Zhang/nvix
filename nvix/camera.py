@@ -55,8 +55,8 @@ class Camera:
     @property
     def M_proj(self):
         """The projection matrix."""
-        return vm.projection(self.fov_up, self.near, self.far, self.aspect,
-                             ptype=self.ptype)
+        return vm.projection(self.fov_up, self.near, self.far,
+                             self.aspect, ptype=self.ptype)
 
 
 def rotate(cam, axis, a, rad=False):
@@ -70,3 +70,9 @@ def rotate(cam, axis, a, rad=False):
 def spin(cam, a, rad=False):
     """Camera spins for an angle."""
     pass
+
+
+def shift(cam, disp):
+    """Shift the camera by a displacement vector."""
+    eye = cam.eye + disp
+    return replace(cam, eye=eye)
