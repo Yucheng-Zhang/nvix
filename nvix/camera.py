@@ -76,3 +76,10 @@ def shift(cam, disp):
     """Shift the camera by a displacement vector."""
     eye = cam.eye + disp
     return replace(cam, eye=eye)
+
+
+def update(cam, dic):
+    """Update the fields in Camera instance."""
+    cam = replace(cam, **dic)
+    cam.__post_init__()
+    return cam
