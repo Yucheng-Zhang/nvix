@@ -1,5 +1,5 @@
 """
-Functions for 3D projection, OpenGL-like.
+OpenGL-like functions for 3D projection using a pinhole camera.
 """
 
 import numpy as np

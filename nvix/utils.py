@@ -41,6 +41,9 @@ def draw_box(vertices, ax):
         vertices: array of (2, 8)
             vertices in a specific order
     """
+    if vertices.shape[1] < 8:
+        return None
+
     def draw_line(p1, p2):
         pp = np.vstack([p1, p2])
         ax.plot(pp[:, 0], pp[:, 1], c='grey', alpha=0.3)
